@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduTrack — Student Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:      #1a1410;
+      --paper:    #faf7f2;
+      --cream:    #f0ebe0;
+      --gold:     #c8922a;
+      --gold-lt:  #f5dfa0;
+      --rust:     #b54a2f;
+      --sage:     #3d6b4f;
+      --muted:    #7a6e62;
+      --border:   #d9d0c0;
+      --shadow:   0 4px 24px rgba(26,20,16,.10);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ──────────────────────────────────── */
+    header {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 16px rgba(0,0,0,.3);
+    }
+
+    header .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      letter-spacing: -.5px;
+      color: var(--gold-lt);
+    }
+    header .logo span { color: var(--gold); font-style: italic; }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 8px;
+    }
+    nav ul li a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: .85rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 20px;
+      transition: all .2s;
+      letter-spacing: .3px;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    /* ── HERO ────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, #1a1410 0%, #2e2218 60%, #3d2e1a 100%);
+      padding: 60px 40px 50px;
+      color: var(--paper);
+      display: flex;
+      align-items: flex-end;
+      gap: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,146,42,.18) 0%, transparent 70%);
+    }
+    .hero-text h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.8rem;
+      line-height: 1.1;
+      color: var(--gold-lt);
+    }
+    .hero-text h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-text p {
+      margin-top: 10px;
+      color: #bbb;
+      font-size: .95rem;
+      font-weight: 300;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 24px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .stat-box {
+      text-align: center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(200,146,42,.3);
+      border-radius: 12px;
+      padding: 16px 24px;
+    }
+    .stat-box .num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      display: block;
+    }
+    .stat-box .lbl {
+      font-size: .75rem;
+      color: #aaa;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    /* ── LAYOUT ──────────────────────────────────── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 32px;
+    }
+
+    /* ── CARDS ───────────────────────────────────── */
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 28px;
+    }
+    .card:last-child { margin-bottom: 0; }
+
+    .card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      color: var(--ink);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-title .icon {
+      width: 32px; height: 32px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .card-subtitle {
+      font-size: .8rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    /* ── TABLE ───────────────────────────────────── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+    }
+    thead {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    thead th {
+      padding: 11px 14px;
+      text-align: left;
+      font-weight: 500;
+      letter-spacing: .4px;
+      font-size: .78rem;
+      text-transform: uppercase;
+    }
+    thead th:first-child { border-radius: 8px 0 0 0; }
+    thead th:last-child  { border-radius: 0 8px 0 0; }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background .15s;
+    }
+    tbody tr:hover { background: var(--cream); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td { padding: 11px 14px; color: var(--ink); }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: .75rem;
+      font-weight: 600;
+    }
+    .badge-pass   { background: #d4edda; color: #1a5c2e; }
+    .badge-warn   { background: #fff3cd; color: #7a5000; }
+    .badge-fail   { background: #fde8e4; color: var(--rust); }
+    .badge-pend   { background: #e8ecf8; color: #2c3e7a; }
+
+    .grade {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .grade-a { color: var(--sage); }
+    .grade-b { color: var(--gold); }
+    .grade-c { color: var(--rust); }
+
+    /* ── FORM ────────────────────────────────────── */
+    form { display: flex; flex-direction: column; gap: 16px; }
+
+    fieldset {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+    legend {
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      padding: 0 6px;
+    }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    label {
+      font-size: .82rem;
+      font-weight: 500;
+      color: var(--ink);
+      display: block;
+      margin-bottom: 5px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 9px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem;
+      background: var(--paper);
+      color: var(--ink);
+      transition: border-color .2s, box-shadow .2s;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(200,146,42,.15);
+    }
+    textarea { resize: vertical; min-height: 80px; }
+
+    .btn {
+      padding: 11px 24px;
+      border: none;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-primary {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .btn-primary:hover { background: #2e2218; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.2); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--muted); color: var(--ink); }
+    .form-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+    /* ── SIDEBAR ─────────────────────────────────── */
+    .sidebar { }
+
+    /* schedule list */
+    .schedule-list { list-style: none; }
+    .schedule-list li {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .schedule-list li:last-child { border-bottom: none; }
+    .schedule-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+    .dot-gold  { background: var(--gold); }
+    .dot-sage  { background: var(--sage); }
+    .dot-rust  { background: var(--rust); }
+    .dot-blue  { background: #3a6fbe; }
+    .schedule-info .subject { font-weight: 600; font-size: .88rem; }
+    .schedule-info .time { font-size: .78rem; color: var(--muted); margin-top: 2px; }
+
+    /* progress bars */
+    .progress-item { margin-bottom: 14px; }
+    .progress-item:last-child { margin-bottom: 0; }
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: .82rem;
+      margin-bottom: 5px;
+    }
+    .progress-bar-bg {
+      height: 7px;
+      background: var(--cream);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s ease;
+    }
+
+    /* ── SECTION HEADINGS ────────────────────────── */
+    .section-label {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    /* ── FOOTER ──────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      color: #888;
+      text-align: center;
+      padding: 24px;
+      font-size: .8rem;
+      margin-top: 20px;
+    }
+    footer address {
+      font-style: normal;
+      margin-top: 4px;
+      color: #666;
+      font-size: .75rem;
+    }
+
+    /* ── TOAST ───────────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 30px; right: 30px;
+      background: var(--sage);
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-size: .88rem;
+      font-weight: 500;
+      box-shadow: 0 4px 20px rgba(0,0,0,.2);
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all .35s cubic-bezier(.34,1.56,.64,1);
+      z-index: 999;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+
+    @media (max-width: 768px) {
+      .container { grid-template-columns: 1fr; }
+      .hero { flex-direction: column; }
+      .hero-stats { margin-left: 0; }
+      .field-row { grid-template-columns: 1fr; }
+      header { padding: 0 20px; }
+      nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════════════════════ -->
+<header>
+  <div class="logo">Edu<span>Track</span></div>
+  <nav>
+    <ul>
+      <li><a href="#grades" class="active">Grades</a></li>
+      <li><a href="#schedule">Schedule</a></li>
+      <li><a href="#enroll">Enroll</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ══ HERO ════════════════════════════════════════════════════ -->
+<section class="hero" aria-label="Dashboard summary">
+  <div class="hero-text">
+    <h1>Welcome back,<br /><em>Arjun Sharma</em></h1>
+    <p>Semester 4 · Computer Science Engineering · Roll No. 21CS047</p>
+  </div>
+  <div class="hero-stats" role="list">
+    <div class="stat-box" role="listitem">
+      <span class="num">82%</span>
+      <span class="lbl">Attendance</span>
+    </div>
+    <div class="stat-box" role="listitem">
+      <span class="num">8.4</span>
+      <span class="lbl">Current GPA</span>
+    </div>
+    <div class="stat-box" role="listitem">
+      <span class="num">6</span>
+      <span class="lbl">Subjects</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MAIN CONTENT ════════════════════════════════════════════ -->
+<div class="container">
+
+  <!-- ── LEFT COLUMN ── -->
+  <main>
+
+    <!-- GRADES TABLE -->
+    <section id="grades" aria-labelledby="grades-heading">
+      <article class="card">
+        <h2 class="card-title" id="grades-heading">
+          <span class="icon">📋</span> Grade Report
+        </h2>
+        <p class="card-subtitle">Semester 4 · Academic Year 2024–25</p>
+
+        <table>
+          <caption style="text-align:left;font-size:.78rem;color:var(--muted);margin-bottom:10px;">
+            Internal marks out of 50 · External marks out of 100
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Subject</th>
+              <th scope="col">Internal</th>
+              <th scope="col">External</th>
+              <th scope="col">Total</th>
+              <th scope="col">Grade</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Data Structures</strong></td>
+              <td>44 / 50</td>
+              <td>81 / 100</td>
+              <td>125 / 150</td>
+              <td><span class="grade grade-a">A+</span></td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td><strong>Operating Systems</strong></td>
+              <td>38 / 50</td>
+              <td>72 / 100</td>
+              <td>110 / 150</td>
+              <td><span class="grade grade-a">A</span></td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td><strong>Database Management</strong></td>
+              <td>31 / 50</td>
+              <td>65 / 100</td>
+              <td>96 / 150</td>
+              <td><span class="grade grade-b">B+</span></td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td><strong>Computer Networks</strong></td>
+              <td>29 / 50</td>
+              <td>58 / 100</td>
+              <td>87 / 150</td>
+              <td><span class="grade grade-b">B</span></td>
+              <td><span class="badge badge-warn">Review</span></td>
+            </tr>
+            <tr>
+              <td><strong>Software Engineering</strong></td>
+              <td>40 / 50</td>
+              <td>78 / 100</td>
+              <td>118 / 150</td>
+              <td><span class="grade grade-a">A</span></td>
+              <td><span class="badge badge-pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td><strong>Web Technologies</strong></td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td><span class="grade">—</span></td>
+              <td><span class="badge badge-pend">Pending</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <!-- ENROLLMENT FORM -->
+    <section id="enroll" aria-labelledby="enroll-heading">
+      <article class="card">
+        <h2 class="card-title" id="enroll-heading">
+          <span class="icon">📝</span> Course Enrollment
+        </h2>
+        <p class="card-subtitle">Register for next semester electives</p>
+
+        <form id="enrollForm" novalidate>
+
+          <fieldset>
+            <legend>Personal Details</legend>
+            <div class="field-row">
+              <div>
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" name="fullname" value="Arjun Sharma" required />
+              </div>
+              <div>
+                <label for="rollno">Roll Number</label>
+                <input type="text" id="rollno" name="rollno" value="21CS047" required />
+              </div>
+            </div>
+            <div class="field-row" style="margin-top:14px;">
+              <div>
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="student@college.edu" required />
+              </div>
+              <div>
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="+91 XXXXX XXXXX" />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Course Selection</legend>
+            <div class="field-row">
+              <div>
+                <label for="semester">Semester</label>
+                <select id="semester" name="semester">
+                  <option value="">— Select —</option>
+                  <option value="5" selected>Semester 5</option>
+                  <option value="6">Semester 6</option>
+                  <option value="7">Semester 7</option>
+                </select>
+              </div>
+              <div>
+                <label for="elective">Elective Subject</label>
+                <select id="elective" name="elective">
+                  <option value="">— Select —</option>
+                  <option value="ml">Machine Learning</option>
+                  <option value="cv">Computer Vision</option>
+                  <option value="cc">Cloud Computing</option>
+                  <option value="cy">Cybersecurity</option>
+                  <option value="bi">Business Intelligence</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Additional Info</legend>
+            <label for="reason">Why did you choose this elective?</label>
+            <textarea id="reason" name="reason" placeholder="Briefly describe your interest…"></textarea>
+          </fieldset>
+
+          <div class="form-actions">
+            <button type="reset" class="btn btn-secondary">Clear</button>
+            <button type="submit" class="btn btn-primary">Submit Enrollment →</button>
+          </div>
+
+        </form>
+      </article>
+    </section>
+
+  </main>
+
+  <!-- ── SIDEBAR ── -->
+  <aside aria-label="Upcoming schedule and progress">
+
+    <!-- SCHEDULE -->
+    <section id="schedule" aria-labelledby="schedule-heading">
+      <div class="card">
+        <h2 class="card-title" id="schedule-heading">
+          <span class="icon">🗓</span> Today's Schedule
+        </h2>
+        <p class="card-subtitle">Monday, 28 April 2025</p>
+
+        <ul class="schedule-list">
+          <li>
+            <span class="schedule-dot dot-sage"></span>
+            <div class="schedule-info">
+              <div class="subject">Data Structures Lab</div>
+              <div class="time">8:00 AM – 9:30 AM · Room 204</div>
+            </div>
+          </li>
+          <li>
+            <span class="schedule-dot dot-gold"></span>
+            <div class="schedule-info">
+              <div class="subject">Operating Systems</div>
+              <div class="time">10:00 AM – 11:00 AM · Room 108</div>
+            </div>
+          </li>
+          <li>
+            <span class="schedule-dot dot-blue"></span>
+            <div class="schedule-info">
+              <div class="subject">Database Management</div>
+              <div class="time">11:15 AM – 12:15 PM · Room 312</div>
+            </div>
+          </li>
+          <li>
+            <span class="schedule-dot dot-rust"></span>
+            <div class="schedule-info">
+              <div class="subject">Computer Networks</div>
+              <div class="time">2:00 PM – 3:00 PM · Room 201</div>
+            </div>
+          </li>
+          <li>
+            <span class="schedule-dot dot-gold"></span>
+            <div class="schedule-info">
+              <div class="subject">Web Technologies</div>
+              <div class="time">3:15 PM – 4:15 PM · Online</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PROGRESS -->
+    <section aria-labelledby="progress-heading">
+      <div class="card">
+        <h2 class="card-title" id="progress-heading">
+          <span class="icon">📊</span> Syllabus Progress
+        </h2>
+        <p class="card-subtitle">Completion by subject</p>
+
+        <div>
+          <div class="progress-item">
+            <div class="progress-header">
+              <span>Data Structures</span><span>88%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width:88%;background:var(--sage);"></div>
+            </div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-header">
+              <span>Operating Systems</span><span>75%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width:75%;background:var(--gold);"></div>
+            </div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-header">
+              <span>Database Mgmt.</span><span>62%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width:62%;background:#3a6fbe;"></div>
+            </div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-header">
+              <span>Computer Networks</span><span>50%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width:50%;background:var(--rust);"></div>
+            </div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-header">
+              <span>Software Engineering</span><span>91%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width:91%;background:var(--sage);"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </aside>
+</div>
+
+<!-- ══ FOOTER ══════════════════════════════════════════════════ -->
+<footer>
+  <p>EduTrack Student Portal · Academic Year 2024–25</p>
+  <address>
+    JNTU College of Engineering · Kakinada, Andhra Pradesh · 
+    <a href="mailto:support@edutrack.ac.in" style="color:#888;">support@edutrack.ac.in</a>
+  </address>
+</footer>
+
+<!-- ══ TOAST ════════════════════════════════════════════════════ -->
+<div id="toast" role="status" aria-live="polite">✔ Enrollment submitted successfully!</div>
+
+<script>
+  document.getElementById('enrollForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+  });
+</script>
+
+</body>
+</html>
