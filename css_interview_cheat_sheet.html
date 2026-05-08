@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @media print {
+    body { margin: 0; }
+    .page-break { page-break-before: always; }
+    .no-print { display: none; }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;
+    padding: 0;
+  }
+
+  .cover {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 60%, #06b6d4 100%);
+    color: white;
+    padding: 60px 40px;
+    text-align: center;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cover h1 {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+
+  .cover h2 {
+    font-size: 16px;
+    font-weight: 400;
+    opacity: 0.85;
+    margin-bottom: 16px;
+  }
+
+  .cover .badge {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 20px;
+    padding: 4px 16px;
+    font-size: 12px;
+    display: inline-block;
+  }
+
+  .toc {
+    background: #f8fafc;
+    border-left: 4px solid #2563eb;
+    padding: 16px 24px;
+    margin: 16px;
+    border-radius: 4px;
+  }
+
+  .toc h3 { font-size: 13px; color: #2563eb; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .toc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px 16px; }
+  .toc-item { font-size: 11px; color: #374151; padding: 2px 0; }
+  .toc-item span { color: #6b7280; }
+
+  .section {
+    margin: 0 16px 16px;
+  }
+
+  .section-header {
+    background: #1e3a5f;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px 6px 0 0;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-header .num {
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .section-body {
+    border: 1px solid #e5e7eb;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+  }
+
+  .qa {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .qa:last-child { border-bottom: none; }
+  .qa:nth-child(even) { background: #f9fafb; }
+
+  .q {
+    font-weight: 600;
+    color: #1e3a5f;
+    font-size: 11.5px;
+    margin-bottom: 4px;
+    display: flex;
+    gap: 6px;
+  }
+
+  .q::before {
+    content: "Q";
+    background: #2563eb;
+    color: white;
+    border-radius: 3px;
+    padding: 0 5px;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+    line-height: 18px;
+    height: 18px;
+  }
+
+  .a {
+    color: #374151;
+    font-size: 11px;
+    padding-left: 22px;
+    line-height: 1.6;
+  }
+
+  code {
+    background: #f0f4ff;
+    border: 1px solid #dbeafe;
+    border-radius: 3px;
+    padding: 0 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 10.5px;
+    color: #1d4ed8;
+  }
+
+  .code-block {
+    background: #1e293b;
+    color: #e2e8f0;
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    margin-top: 6px;
+    line-height: 1.7;
+    overflow: hidden;
+  }
+
+  .code-block .kw { color: #93c5fd; }
+  .code-block .prop { color: #6ee7b7; }
+  .code-block .val { color: #fcd34d; }
+  .code-block .cmt { color: #94a3b8; font-style: italic; }
+  .code-block .sel { color: #f9a8d4; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 0 16px 16px;
+  }
+
+  .two-col .section { margin: 0; }
+
+  .tip {
+    background: #ecfdf5;
+    border-left: 3px solid #10b981;
+    padding: 6px 10px;
+    border-radius: 0 4px 4px 0;
+    margin-top: 4px;
+    font-size: 10.5px;
+    color: #065f46;
+    padding-left: 22px;
+  }
+
+  .warn {
+    background: #fffbeb;
+    border-left: 3px solid #f59e0b;
+    padding: 6px 10px;
+    border-radius: 0 4px 4px 0;
+    margin-top: 4px;
+    font-size: 10.5px;
+    color: #78350f;
+    padding-left: 22px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding-left: 22px;
+    margin-top: 4px;
+  }
+
+  .tag {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1d4ed8;
+    border-radius: 10px;
+    padding: 1px 8px;
+    font-size: 10px;
+  }
+
+  .footer {
+    background: #1e3a5f;
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 10px;
+    font-size: 10px;
+    margin-top: 16px;
+  }
+
+  .print-btn {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.4);
+    z-index: 999;
+  }
+
+  .print-btn:hover { background: #1d4ed8; }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨️ Save as PDF</button>
+
+<!-- COVER -->
+<div class="cover">
+  <h1>CSS Interview Cheat Sheet</h1>
+  <h2>Complete Guide — Basics to Advanced</h2>
+  <div class="badge">100+ Interview Questions &amp; Answers</div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>Contents</h3>
+  <div class="toc-grid">
+    <div class="toc-item">1. Basics &amp; Selectors</div>
+    <div class="toc-item">2. Box Model</div>
+    <div class="toc-item">3. Display &amp; Visibility</div>
+    <div class="toc-item">4. Flexbox</div>
+    <div class="toc-item">5. CSS Grid</div>
+    <div class="toc-item">6. Positioning</div>
+    <div class="toc-item">7. Typography</div>
+    <div class="toc-item">8. Colors &amp; Backgrounds</div>
+    <div class="toc-item">9. Transitions &amp; Animations</div>
+    <div class="toc-item">10. Responsive Design</div>
+    <div class="toc-item">11. Pseudo-classes/elements</div>
+    <div class="toc-item">12. CSS Variables</div>
+    <div class="toc-item">13. Specificity</div>
+    <div class="toc-item">14. Advanced Concepts</div>
+    <div class="toc-item">15. Performance &amp; Best Practices</div>
+  </div>
+</div>
+
+<!-- SECTION 1 -->
+<div class="section">
+  <div class="section-header"><span class="num">1</span> Basics &amp; Selectors</div>
+  <div class="section-body">
+    <div class="qa">
+      <div class="q">What is CSS and what does it stand for?</div>
+      <div class="a">CSS stands for <strong>Cascading Style Sheets</strong>. It is a stylesheet language used to describe the presentation/visual styling of HTML documents. "Cascading" refers to the priority scheme that determines which style rules apply when multiple rules target the same element.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What are the different ways to apply CSS to a webpage?</div>
+      <div class="a"><strong>Inline:</strong> <code>style</code> attribute on element (highest specificity). <strong>Internal:</strong> <code>&lt;style&gt;</code> tag in <code>&lt;head&gt;</code>. <strong>External:</strong> separate <code>.css</code> file linked via <code>&lt;link&gt;</code> (recommended — best separation of concerns, caching).</div>
+    </div>
+    <div class="qa">
+      <div class="q">Explain all CSS selector types with examples.</div>
+      <div class="a">
+        <strong>Universal:</strong> <code>*</code> — all elements<br>
+        <strong>Type/Element:</strong> <code>p</code>, <code>div</code>, <code>h1</code><br>
+        <strong>Class:</strong> <code>.classname</code><br>
+        <strong>ID:</strong> <code>#idname</code> (unique per page)<br>
+        <strong>Attribute:</strong> <code>[type="text"]</code>, <code>[href^="https"]</code><br>
+        <strong>Descendant:</strong> <code>div p</code> (any nested p)<br>
+        <strong>Child:</strong> <code>div &gt; p</code> (direct child only)<br>
+        <strong>Adjacent sibling:</strong> <code>h1 + p</code> (immediately after)<br>
+        <strong>General sibling:</strong> <code>h1 ~ p</code> (all after h1)
+      </div>
+    </div>
+    <div class="qa">
+      <div class="q">What is the difference between <code>class</code> and <code>id</code> selectors?</div>
+      <div class="a"><code>id</code> must be unique per page, has higher specificity (100 points), used for single elements. <code>class</code> can be reused on multiple elements, has lower specificity (10 points), used for groups of elements.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What are attribute selectors? Give examples.</div>
+      <div class="a">
+        <code>[attr]</code> — has attribute &nbsp;|&nbsp; <code>[attr="val"]</code> — exact match<br>
+        <code>[attr^="val"]</code> — starts with &nbsp;|&nbsp; <code>[attr$="val"]</code> — ends with<br>
+        <code>[attr*="val"]</code> — contains &nbsp;|&nbsp; <code>[attr~="val"]</code> — word match
+      </div>
+    </div>
+    <div class="qa">
+      <div class="q">What is the <code>:is()</code> selector?</div>
+      <div class="a"><code>:is(h1, h2, h3) span</code> — matches <code>span</code> inside any of the listed selectors. Reduces repetition, takes the highest specificity of its arguments.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2 -->
+<div class="section">
+  <div class="section-header"><span class="num">2</span> Box Model</div>
+  <div class="section-body">
+    <div class="qa">
+      <div class="q">Explain the CSS box model.</div>
+      <div class="a">Every element is a rectangular box made of 4 layers (inside out): <strong>Content</strong> → <strong>Padding</strong> → <strong>Border</strong> → <strong>Margin</strong>. Total width = content + padding-left + padding-right + border-left + border-right (by default).</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is the difference between <code>box-sizing: content-box</code> and <code>border-box</code>?</div>
+      <div class="a"><code>content-box</code> (default): width/height apply to content only — padding and border are added on top. <code>border-box</code>: width/height include padding and border — makes layout math much easier. Best practice: use <code>* { box-sizing: border-box; }</code> globally.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is margin collapsing?</div>
+      <div class="a">When two vertical margins meet (adjacent siblings or parent-child), they collapse into one — the larger margin wins. Doesn't happen with horizontal margins, floated elements, flex/grid items, or absolutely positioned elements.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is the difference between <code>padding</code> and <code>margin</code>?</div>
+      <div class="a"><code>padding</code> is space inside the border (part of the element, has background). <code>margin</code> is space outside the border (transparent, between elements). Padding increases clickable area; margins create gaps between elements.</div>
+    </div>
+    <div class="qa">
+      <div class="q">How do you center a block element horizontally?</div>
+      <div class="a">Set a fixed width and use <code>margin: 0 auto</code>. For inline content: <code>text-align: center</code> on parent. Modern way: use flexbox or grid on parent.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TWO COLUMN for sections 3 & 6 -->
+<div class="two-col">
+  <div class="section">
+    <div class="section-header"><span class="num">3</span> Display &amp; Visibility</div>
+    <div class="section-body">
+      <div class="qa">
+        <div class="q">Difference between <code>display: none</code> and <code>visibility: hidden</code>?</div>
+        <div class="a"><code>display: none</code> — removes element from layout flow (no space taken). <code>visibility: hidden</code> — element is invisible but still occupies space.</div>
+      </div>
+      <div class="qa">
+        <div class="q">What is <code>display: inline</code> vs <code>block</code> vs <code>inline-block</code>?</div>
+        <div class="a"><code>block</code>: full width, new line, accepts width/height. <code>inline</code>: only as wide as content, no width/height. <code>inline-block</code>: flows inline but accepts width/height.</div>
+      </div>
+      <div class="qa">
+        <div class="q">What does <code>overflow: hidden</code> do?</div>
+        <div class="a">Clips content that exceeds the element's bounds. Also clears floats (creates a new block formatting context).</div>
+      </div>
+      <div class="qa">
+        <div class="q">What is <code>opacity: 0</code> vs <code>display: none</code>?</div>
+        <div class="a"><code>opacity: 0</code> — element is invisible, still takes space, still interactive. <code>display: none</code> — completely removed, no space, not interactive.</div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header"><span class="num">6</span> Positioning</div>
+    <div class="section-body">
+      <div class="qa">
+        <div class="q">Explain all CSS position values.</div>
+        <div class="a"><code>static</code>: default, normal flow. <code>relative</code>: offset from its own position, still in flow. <code>absolute</code>: removed from flow, positioned relative to nearest non-static ancestor. <code>fixed</code>: relative to viewport. <code>sticky</code>: acts relative until scroll threshold, then fixed.</div>
+      </div>
+      <div class="qa">
+        <div class="q">What is a stacking context and <code>z-index</code>?</div>
+        <div class="a"><code>z-index</code> controls stacking order of overlapping positioned elements. A stacking context is formed by elements with position + z-index, opacity &lt; 1, transform, filter, etc. Children are stacked within their parent's context.</div>
+      </div>
+      <div class="qa">
+        <div class="q">How does <code>position: sticky</code> work?</div>
+        <div class="a">Acts like <code>relative</code> until the element reaches its scroll threshold (e.g. <code>top: 0</code>), then becomes <code>fixed</code> within its parent container. Parent must have a defined height.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4 - FLEXBOX -->
+<div class="section">
+  <div class="section-header"><span class="num">4</span> Flexbox</div>
+  <div class="section-body">
+    <div class="qa">
+      <div class="q">What is Flexbox and when should you use it?</div>
+      <div class="a">A one-dimensional layout model (row OR column). Best for navigation bars, aligning items, distributing space, centering, and small-scale components. Use CSS Grid for two-dimensional layouts.</div>
+    </div>
+    <div class="qa">
+      <div class="q">Explain key flex container properties.</div>
+      <div class="a">
+        <code>display: flex</code> — activates flex context<br>
+        <code>flex-direction</code>: row | column | row-reverse | column-reverse<br>
+        <code>flex-wrap</code>: nowrap | wrap | wrap-reverse<br>
+        <code>justify-content</code>: flex-start | flex-end | center | space-between | space-around | space-evenly<br>
+        <code>align-items</code>: flex-start | flex-end | center | stretch | baseline<br>
+        <code>align-content</code>: controls multi-line alignment<br>
+        <code>gap</code>: spacing between items
+      </div>
+    </div>
+    <div class="qa">
+      <div class="q">Explain key flex item properties.</div>
+      <div class="a">
+        <code>flex-grow</code>: how much item grows relative to others (0 = no grow)<br>
+        <code>flex-shrink</code>: how much item shrinks (1 = default)<br>
+        <code>flex-basis</code>: initial main size before grow/shrink<br>
+        <code>flex: 1</code> shorthand = grow:1, shrink:1, basis:0<br>
+        <code>align-self</code>: overrides align-items for one item<br>
+        <code>order</code>: changes visual order (default 0)
+      </div>
+    </div>
+    <div class="qa">
+      <div class="q">How do you center an element both horizontally and vertically with flexbox?</div>
+      <div class="a">On parent: <code>display: flex; justify-content: center; align-items: center;</code></div>
+    </div>
+    <div class="qa">
+      <div class="q">What is the difference between <code>justify-content</code> and <code>align-items</code>?</div>
+      <div class="a"><code>justify-content</code> aligns items along the <strong>main axis</strong> (row = horizontal, column = vertical). <code>align-items</code> aligns along the <strong>cross axis</strong> (perpendicular to main axis).</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5 - GRID -->
+<div class="section">
+  <div class="section-header"><span class="num">5</span> CSS Grid</div>
+  <div class="section-body">
+    <div class="qa">
+      <div class="q">What is CSS Grid and how does it differ from Flexbox?</div>
+      <div class="a">Grid is a <strong>two-dimensional</strong> layout system (rows AND columns simultaneously). Flexbox is one-dimensional. Grid is better for overall page layout; Flexbox for component-level layout. Both can be combined.</div>
+    </div>
+    <div class="qa">
+      <div class="q">Explain <code>grid-template-columns</code> and the <code>fr</code> unit.</div>
+      <div class="a"><code>grid-template-columns: 1fr 2fr 1fr</code> creates 3 columns where the middle takes twice as much space. <code>fr</code> (fractional unit) distributes available space proportionally after fixed-size columns are allocated.</div>
+      <div class="code-block"><span class="sel">.grid</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-template-columns</span>: <span class="val">repeat(3, 1fr)</span>;
+  <span class="prop">grid-template-rows</span>: <span class="val">auto 200px</span>;
+  <span class="prop">gap</span>: <span class="val">16px</span>;
+}</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is <code>grid-column</code> and <code>grid-row</code> span?</div>
+      <div class="a"><code>grid-column: 1 / 3</code> — item spans from column line 1 to 3 (2 columns). <code>grid-column: span 2</code> — spans 2 columns from current position. Same applies for <code>grid-row</code>.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is <code>grid-template-areas</code>?</div>
+      <div class="a">Allows naming grid areas for a visual layout map:
+      <div class="code-block"><span class="prop">grid-template-areas</span>: <span class="val">"header header"
+                       "sidebar main"
+                       "footer footer"</span>;<br><span class="cmt">/* Then assign: */</span>
+<span class="sel">header</span> { <span class="prop">grid-area</span>: <span class="val">header</span>; }</div>
+      </div>
+    </div>
+    <div class="qa">
+      <div class="q">What does <code>minmax()</code> do in grid?</div>
+      <div class="a"><code>minmax(min, max)</code> sets a size range. Example: <code>grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))</code> creates as many 200px+ columns as fit — responsive without media queries.</div>
+    </div>
+    <div class="qa">
+      <div class="q">Difference between <code>auto-fill</code> and <code>auto-fit</code>?</div>
+      <div class="a"><code>auto-fill</code>: creates as many columns as fit, including empty ones. <code>auto-fit</code>: creates columns as fit, but collapses empty ones — items expand to fill remaining space.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 7 & 8 two col -->
+<div class="two-col">
+  <div class="section">
+    <div class="section-header"><span class="num">7</span> Typography</div>
+    <div class="section-body">
+      <div class="qa">
+        <div class="q">What are CSS units? Which to use when?</div>
+        <div class="a">
+          <code>px</code>: fixed pixels — precise but not scalable<br>
+          <code>em</code>: relative to parent font-size<br>
+          <code>rem</code>: relative to root (html) font-size — preferred<br>
+          <code>%</code>: relative to parent<br>
+          <code>vw/vh</code>: % of viewport width/height<br>
+          <code>ch</code>: width of "0" character — good for max-width<br>
+          Use <code>rem</code> for font, <code>px</code> for borders, <code>%/fr</code> for layout.
+        </div>
+      </div>
+      <div class="qa">
+        <div class="q">What is <code>line-height</code> and best practices?</div>
+        <div class="a">Sets the height of a line of text. Use unitless values like <code>1.5</code> or <code>1.6</code> (relative to font-size) — avoids inheritance issues. Avoid fixed px values.</div>
+      </div>
+      <div class="qa">
+        <div class="q">Difference between <code>font-weight</code> values?</div>
+        <div class="a">Numeric (100–900, multiples of 100) or keyword (<code>normal</code>=400, <code>bold</code>=700). Value only works if the font file for that weight is loaded.</div>
+      </div>
+      <div class="qa">
+        <div class="q">What is <code>text-overflow: ellipsis</code>?</div>
+        <div class="a">Clips overflowing text with "...". Requires: <code>white-space: nowrap; overflow: hidden; text-overflow: ellipsis;</code> — all three needed.</div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header"><span class="num">8</span> Colors &amp; Backgrounds</div>
+    <div class="section-body">
+      <div class="qa">
+        <div class="q">What color formats does CSS support?</div>
+        <div class="a">
+          <code>keyword</code>: red, blue, transparent<br>
+          <code>hex</code>: #rrggbb, #rgb, #rrggbbaa<br>
+          <code>rgb()</code>: rgb(255, 0, 0)<br>
+          <code>rgba()</code>: with alpha channel<br>
+          <code>hsl()</code>: hue(0-360), saturation%, lightness%<br>
+          <code>hsla()</code>: with alpha<br>
+          <code>oklch()</code>: modern perceptual color space
+        </div>
+      </div>
+      <div class="qa">
+        <div class="q">How does <code>background-size</code> work?</div>
+        <div class="a"><code>cover</code>: scales to cover entire area (may crop). <code>contain</code>: scales to fit inside (may have gaps). Specific values: <code>100px 200px</code> or <code>50%</code>.</div>
+      </div>
+      <div class="qa">
+        <div class="q">How do you create a CSS gradient?</div>
+        <div class="a"><code>background: linear-gradient(to right, #f00, #00f)</code> — direction then color stops. <code>radial-gradient(circle, #f00, #00f)</code>. Can use multiple color stops and percentages.</div>
+      </div>
+      <div class="qa">
+        <div class="q">What is <code>background-clip</code>?</div>
+        <div class="a">Controls how far background extends: <code>border-box</code> (default), <code>padding-box</code>, <code>content-box</code>, <code>text</code> (clips to text shape — combine with <code>-webkit-background-clip: text</code>).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 9 ANIMATIONS -->
+<div class="section">
+  <div class="section-header"><span class="num">9</span> Transitions &amp; Animations</div>
+  <div class="section-body">
+    <div class="qa">
+      <div class="q">What is the difference between <code>transition</code> and <code>animation</code>?</div>
+      <div class="a"><code>transition</code>: smooth change between two states (triggered by user action like hover). <code>animation</code>: defines keyframes for complex multi-step animations that can run automatically and loop.</div>
+    </div>
+    <div class="qa">
+      <div class="q">Explain CSS transition syntax.</div>
+      <div class="a"><code>transition: property duration timing-function delay</code><br>Example: <code>transition: all 0.3s ease-in-out 0s</code>. Multiple: comma-separated. Use <code>transform</code> and <code>opacity</code> for best performance (GPU-composited).</div>
+    </div>
+    <div class="qa">
+      <div class="q">Explain <code>@keyframes</code> and <code>animation</code> properties.</div>
+      <div class="a">
+        <div class="code-block"><span class="kw">@keyframes</span> <span class="sel">fadeIn</span> {
+  <span class="val">0%</span>   { <span class="prop">opacity</span>: <span class="val">0</span>; <span class="prop">transform</span>: <span class="val">translateY(-10px)</span>; }
+  <span class="val">100%</span> { <span class="prop">opacity</span>: <span class="val">1</span>; <span class="prop">transform</span>: <span class="val">translateY(0)</span>; }
+}
+<span class="sel">.el</span> { <span class="prop">animation</span>: <span class="val">fadeIn 0.5s ease forwards</span>; }</div>
+        <code>animation</code> shorthand: name duration timing-function delay iteration-count direction fill-mode play-state.
+      </div>
+    </div>
+    <div class="qa">
+      <div class="q">What are easing functions / timing functions?</div>
+      <div class="a"><code>ease</code> (default), <code>linear</code>, <code>ease-in</code>, <code>ease-out</code>, <code>ease-in-out</code>, <code>cubic-bezier(x1,y1,x2,y2)</code> for custom curves, <code>steps(n)</code> for discrete jumps.</div>
+    </div>
+    <div class="qa">
+      <div class="q">Which CSS properties are most performant to animate and why?</div>
+      <div class="a"><code>transform</code> and <code>opacity</code> — they run on the GPU compositor thread without triggering layout or paint. Avoid animating <code>width</code>, <code>height</code>, <code>margin</code>, <code>top/left</code> — these trigger layout reflow.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What does <code>will-change</code> do?</div>
+      <div class="a">Hints to the browser to pre-optimize for an upcoming change: <code>will-change: transform</code>. Promotes element to its own compositor layer. Use sparingly — it consumes memory.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 10 RESPONSIVE -->
+<div class="section">
+  <div class="section-header"><span class="num">10</span> Responsive Design &amp; Media Queries</div>
+  <div class="section-body">
+    <div class="qa">
+      <div class="q">What is responsive web design?</div>
+      <div class="a">Design approach that makes web pages look and function well across all screen sizes using fluid layouts, flexible images, and CSS media queries.</div>
+    </div>
+    <div class="qa">
+      <div class="q">Explain CSS media queries with examples.</div>
+      <div class="a">
+        <div class="code-block"><span class="cmt">/* Mobile first approach */</span>
+<span class="kw">@media</span> (<span class="prop">min-width</span>: <span class="val">768px</span>) { ... }   <span class="cmt">/* tablet */</span>
+<span class="kw">@media</span> (<span class="prop">min-width</span>: <span class="val">1024px</span>) { ... }  <span class="cmt">/* desktop */</span>
+<span class="kw">@media</span> (<span class="prop">prefers-color-scheme</span>: <span class="val">dark</span>) { ... }
+<span class="kw">@media</span> (<span class="prop">prefers-reduced-motion</span>: <span class="val">reduce</span>) { ... }
+<span class="kw">@media print</span> { ... }</div>
+      </div>
+    </div>
+    <div class="qa">
+      <div class="q">What is mobile-first design?</div>
+      <div class="a">Writing base CSS for mobile, then adding <code>min-width</code> media queries to enhance for larger screens. Recommended approach — ensures performance on mobile and progressive enhancement on desktop.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is the viewport meta tag and why is it needed?</div>
+      <div class="a"><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code> — tells mobile browsers not to scale down the page to fit the screen. Without it, media queries won't work correctly on mobile.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What are CSS container queries?</div>
+      <div class="a">Like media queries but based on the container's size rather than viewport: <code>@container (min-width: 400px) { ... }</code>. Requires <code>container-type: inline-size</code> on parent. Better for reusable component-based design.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is <code>clamp()</code> in CSS?</div>
+      <div class="a"><code>clamp(min, preferred, max)</code> — responsive value within bounds. Example: <code>font-size: clamp(1rem, 2.5vw, 2rem)</code> — scales with viewport, never below 1rem or above 2rem. Eliminates many media queries.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 11 PSEUDO -->
+<div class="section">
+  <div class="section-header"><span class="num">11</span> Pseudo-classes &amp; Pseudo-elements</div>
+  <div class="section-body">
+    <div class="qa">
+      <div class="q">What is the difference between pseudo-class and pseudo-element?</div>
+      <div class="a"><strong>Pseudo-class</strong> (<code>:</code>) selects elements in a specific state: <code>:hover</code>, <code>:focus</code>, <code>:nth-child()</code>, <code>:not()</code>. <strong>Pseudo-element</strong> (<code>::</code>) targets a part of an element: <code>::before</code>, <code>::after</code>, <code>::first-line</code>, <code>::placeholder</code>.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What are <code>::before</code> and <code>::after</code>?</div>
+      <div class="a">Insert generated content before/after element's content. Require <code>content</code> property (can be <code>""</code>). Commonly used for decorative elements, icons, and CSS tricks without extra HTML.</div>
+    </div>
+    <div class="qa">
+      <div class="q">Explain <code>:nth-child()</code> vs <code>:nth-of-type()</code>.</div>
+      <div class="a"><code>:nth-child(n)</code> counts all sibling elements. <code>:nth-of-type(n)</code> counts only siblings of the same element type. Pattern: <code>2n</code>=even, <code>2n+1</code>=odd, <code>3n</code>=every 3rd.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is <code>:focus-visible</code> vs <code>:focus</code>?</div>
+      <div class="a"><code>:focus</code> triggers on any focus (including mouse click). <code>:focus-visible</code> only shows focus indicator when navigating by keyboard — better UX: hides the focus ring for mouse users, shows it for keyboard navigation.</div>
+    </div>
+    <div class="qa">
+      <div class="q">Name some important pseudo-classes for forms.</div>
+      <div class="a"><code>:valid</code> / <code>:invalid</code> — validation state. <code>:required</code> / <code>:optional</code>. <code>:checked</code> — checkbox/radio state. <code>:disabled</code> / <code>:enabled</code>. <code>:placeholder-shown</code> — placeholder visible.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 12 & 13 two col -->
+<div class="two-col">
+  <div class="section">
+    <div class="section-header"><span class="num">12</span> CSS Variables (Custom Properties)</div>
+    <div class="section-body">
+      <div class="qa">
+        <div class="q">What are CSS custom properties (variables)?</div>
+        <div class="a">Reusable values defined with <code>--name: value</code> syntax, accessed with <code>var(--name)</code>. Defined in <code>:root</code> for global scope. Unlike preprocessor variables, they are dynamic and can change at runtime.</div>
+        <div class="code-block"><span class="sel">:root</span> {
+  <span class="prop">--color-primary</span>: <span class="val">#2563eb</span>;
+  <span class="prop">--spacing-md</span>: <span class="val">16px</span>;
+}
+<span class="sel">.btn</span> {
+  <span class="prop">background</span>: <span class="val">var(--color-primary)</span>;
+  <span class="prop">padding</span>: <span class="val">var(--spacing-md)</span>;
+}</div>
+      </div>
+      <div class="qa">
+        <div class="q">What is a fallback value in <code>var()</code>?</div>
+        <div class="a"><code>var(--color, #333)</code> — uses <code>#333</code> if <code>--color</code> is not defined. Second argument is the fallback.</div>
+      </div>
+      <div class="qa">
+        <div class="q">How are CSS variables different from SASS/LESS variables?</div>
+        <div class="a">CSS variables live in the DOM, cascade, are scoped, and can be changed with JavaScript. SASS/LESS variables are compiled away — they're static and don't exist at runtime.</div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header"><span class="num">13</span> Specificity &amp; Cascade</div>
+    <div class="section-body">
+      <div class="qa">
+        <div class="q">How is CSS specificity calculated?</div>
+        <div class="a">Specificity is a 4-part score (a, b, c, d):<br>
+          <strong>a</strong>: inline styles (1000)<br>
+          <strong>b</strong>: IDs (100 each)<br>
+          <strong>c</strong>: classes, attributes, pseudo-classes (10 each)<br>
+          <strong>d</strong>: elements, pseudo-elements (1 each)<br>
+          Higher score wins. <code>!important</code> overrides all (avoid it).
+        </div>
+      </div>
+      <div class="qa">
+        <div class="q">What is the CSS cascade?</div>
+        <div class="a">The algorithm that determines which CSS rule applies when multiple rules target the same element. Order: <strong>Origin &amp; importance</strong> → <strong>Specificity</strong> → <strong>Source order</strong> (later wins).</div>
+      </div>
+      <div class="qa">
+        <div class="q">What is CSS inheritance?</div>
+        <div class="a">Some properties (like <code>color</code>, <code>font-family</code>, <code>font-size</code>) are inherited by children by default. Others (like <code>margin</code>, <code>padding</code>, <code>border</code>) are not. Use <code>inherit</code>, <code>initial</code>, <code>unset</code>, <code>revert</code> keywords to control.</div>
+      </div>
+      <div class="qa">
+        <div class="q">What is the <code>:where()</code> selector and how does it differ from <code>:is()</code>?</div>
+        <div class="a">Both match the same elements, but <code>:where()</code> always has <strong>zero specificity</strong> — useful for base styles that are easy to override. <code>:is()</code> uses the highest specificity of its arguments.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 14 ADVANCED -->
+<div class="section">
+  <div class="section-header"><span class="num">14</span> Advanced CSS Concepts</div>
+  <div class="section-body">
+    <div class="qa">
+      <div class="q">What is a CSS preprocessor? Name some.</div>
+      <div class="a">A tool that extends CSS with features like variables, nesting, mixins, functions, and imports, then compiles to standard CSS. Examples: <strong>SASS/SCSS</strong> (most popular), <strong>LESS</strong>, <strong>Stylus</strong>.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is CSS-in-JS?</div>
+      <div class="a">Writing CSS within JavaScript files, scoped to components. Examples: <strong>styled-components</strong>, <strong>Emotion</strong>, <strong>CSS Modules</strong>. Advantages: scoped styles, dynamic styling, co-location. Disadvantages: runtime overhead, bundle size.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is a BEM methodology?</div>
+      <div class="a">Block Element Modifier naming convention. Block: <code>.card</code>, Element: <code>.card__title</code>, Modifier: <code>.card--featured</code>. Provides clear, predictable class names and avoids specificity conflicts.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is the <code>transform</code> property?</div>
+      <div class="a">Applies 2D/3D transformations without affecting document flow: <code>translate(x,y)</code>, <code>scale(x,y)</code>, <code>rotate(deg)</code>, <code>skew(x,y)</code>. Multiple transforms: space-separated. Does not trigger layout reflow — GPU accelerated.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is <code>clip-path</code>?</div>
+      <div class="a">Creates a clipping region to show only part of an element. Shapes: <code>circle()</code>, <code>ellipse()</code>, <code>polygon()</code>, <code>inset()</code>, <code>path()</code>. Animatable. Example: <code>clip-path: polygon(50% 0%, 0% 100%, 100% 100%)</code> creates a triangle.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is the <code>filter</code> property?</div>
+      <div class="a">Applies graphical effects: <code>blur(px)</code>, <code>brightness(%)</code>, <code>contrast(%)</code>, <code>grayscale(%)</code>, <code>saturate(%)</code>, <code>hue-rotate(deg)</code>, <code>drop-shadow()</code>. Creates a stacking context. Multiple filters: space-separated.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is <code>backdrop-filter</code>?</div>
+      <div class="a">Like <code>filter</code> but applies to the content behind an element. Used for glassmorphism effects: <code>backdrop-filter: blur(10px)</code>. Element must have a semi-transparent background.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What are CSS logical properties?</div>
+      <div class="a">Writing-mode-aware alternatives: <code>margin-inline-start</code> instead of <code>margin-left</code>, <code>padding-block</code> instead of <code>padding-top/bottom</code>. Better for internationalization (RTL languages).</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is <code>aspect-ratio</code>?</div>
+      <div class="a"><code>aspect-ratio: 16 / 9</code> maintains a fixed ratio as the element resizes. Replaces old padding-top hack for responsive iframes and images.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is the difference between <code>:root</code> and <code>html</code>?</div>
+      <div class="a">Both select the root element, but <code>:root</code> has higher specificity (pseudo-class = 10 points vs 1 for element). Also, <code>:root</code> works in non-HTML documents (SVG, XML). Commonly used for CSS variable definitions.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 15 PERFORMANCE -->
+<div class="section">
+  <div class="section-header"><span class="num">15</span> Performance &amp; Best Practices</div>
+  <div class="section-body">
+    <div class="qa">
+      <div class="q">What triggers layout reflow vs repaint vs compositing?</div>
+      <div class="a">
+        <strong>Reflow (most expensive):</strong> changing geometry — width, height, margin, padding, top, left, font-size<br>
+        <strong>Repaint:</strong> visual changes only — color, background, visibility<br>
+        <strong>Compositing (cheapest):</strong> transform, opacity — GPU handles it
+      </div>
+    </div>
+    <div class="qa">
+      <div class="q">What is CSS containment and the <code>contain</code> property?</div>
+      <div class="a"><code>contain: layout paint style</code> — isolates element subtree from the rest of the document. Browser can skip recalculating outside the boundary. Improves performance for independent components.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is critical CSS?</div>
+      <div class="a">The minimal CSS needed to render above-the-fold content. Inlined in <code>&lt;head&gt;</code> to eliminate render-blocking. Remaining CSS loaded asynchronously. Improves First Contentful Paint (FCP).</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is the <code>@layer</code> CSS rule?</div>
+      <div class="a">Cascade layers allow organizing CSS into named layers with explicit priority. Styles in later layers win within the same importance level. Useful for managing third-party CSS, resets, and utilities without specificity wars.</div>
+    </div>
+    <div class="qa">
+      <div class="q">How do you avoid common CSS pitfalls?</div>
+      <div class="a">
+        Avoid <code>!important</code> except for utilities. Use <code>box-sizing: border-box</code> globally. Use relative units (rem) over px for fonts. Prefer CSS variables over repeated magic numbers. Keep selectors short. Use <code>will-change</code> sparingly. Write mobile-first.
+      </div>
+    </div>
+    <div class="qa">
+      <div class="q">What are some modern CSS features to know in 2024+?</div>
+      <div class="a">
+        <div class="tags">
+          <span class="tag">Container Queries</span>
+          <span class="tag">:has() selector</span>
+          <span class="tag">CSS Nesting</span>
+          <span class="tag">@layer</span>
+          <span class="tag">subgrid</span>
+          <span class="tag">oklch()</span>
+          <span class="tag">color-mix()</span>
+          <span class="tag">@starting-style</span>
+          <span class="tag">view transitions</span>
+          <span class="tag">anchor positioning</span>
+          <span class="tag">scroll-driven animations</span>
+        </div>
+      </div>
+    </div>
+    <div class="qa">
+      <div class="q">What is the <code>:has()</code> relational pseudo-class?</div>
+      <div class="a">Selects a parent/ancestor based on its children: <code>form:has(:invalid)</code> selects a form that contains an invalid input. Known as the "parent selector". Fully supported in modern browsers.</div>
+    </div>
+    <div class="qa">
+      <div class="q">What is CSS nesting?</div>
+      <div class="a">Native CSS now supports nesting without preprocessors:
+        <div class="code-block"><span class="sel">.card</span> {
+  <span class="prop">color</span>: <span class="val">black</span>;
+  <span class="sel">&:hover</span> { <span class="prop">background</span>: <span class="val">#f0f0f0</span>; }
+  <span class="sel">& .title</span> { <span class="prop">font-size</span>: <span class="val">1.2rem</span>; }
+}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  CSS Interview Cheat Sheet &nbsp;|&nbsp; Click the "Save as PDF" button or use File → Print → Save as PDF
+</div>
+
+</body>
+</html>
