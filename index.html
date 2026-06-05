@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A premium watch landing page for Aurelia Watches with curated collections, craftsmanship details, and private appointment booking."
+    />
+    <title>Aurelia Watches | Premium Timepieces</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="#home" aria-label="Aurelia Watches home">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span>Aurelia</span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primaryNav">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span class="sr-only">Toggle navigation</span>
+      </button>
+
+      <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation">
+        <a href="#collection">Collection</a>
+        <a href="#craft">Craft</a>
+        <a href="#concierge">Concierge</a>
+        <a class="nav-action" href="#appointment">Book viewing</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="home" aria-label="Aurelia Watches">
+        <div class="hero-content">
+          <p class="eyebrow">Independent watch atelier</p>
+          <h1>Aurelia Watches</h1>
+          <p class="hero-copy">
+            Mechanical timepieces finished in small runs for collectors who notice the quiet details: case geometry,
+            dial texture, hand-polished edges, and movements tuned with patience.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#collection">Explore collection</a>
+            <a class="button secondary" href="#appointment">Reserve a private viewing</a>
+          </div>
+        </div>
+
+        <div class="hero-proof" aria-label="Brand highlights">
+          <div>
+            <strong>72h</strong>
+            <span>power reserve</span>
+          </div>
+          <div>
+            <strong>316L</strong>
+            <span>brushed steel</span>
+          </div>
+          <div>
+            <strong>5yr</strong>
+            <span>care program</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="intro-section" aria-label="Featured model">
+        <div class="section-kicker">Featured release</div>
+        <div class="feature-layout">
+          <div>
+            <h2>Designed for the hour before the room gets loud.</h2>
+            <p>
+              The Meridian Reserve pairs a textured black dial with applied champagne indices, a curved sapphire crystal,
+              and a slim automatic calibre visible through the exhibition caseback.
+            </p>
+          </div>
+          <dl class="spec-list">
+            <div>
+              <dt>Case</dt>
+              <dd>40 mm steel</dd>
+            </div>
+            <div>
+              <dt>Depth</dt>
+              <dd>100 m rated</dd>
+            </div>
+            <div>
+              <dt>Crystal</dt>
+              <dd>Box sapphire</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="collection-section" id="collection">
+        <div class="section-heading">
+          <p class="eyebrow">The collection</p>
+          <h2>Three signatures, one standard.</h2>
+        </div>
+
+        <div class="collection-controls" aria-label="Collection filters">
+          <button class="filter-button active" type="button" data-filter="all">All</button>
+          <button class="filter-button" type="button" data-filter="dress">Dress</button>
+          <button class="filter-button" type="button" data-filter="sport">Sport</button>
+          <button class="filter-button" type="button" data-filter="travel">Travel</button>
+        </div>
+
+        <div class="watch-grid" data-watch-grid>
+          <article class="watch-card" data-category="dress">
+            <figure>
+              <img src="assets/watch-hero.jpg" alt="Black dial luxury watch with a brown leather strap" />
+            </figure>
+            <div class="watch-card-body">
+              <div class="watch-title-row">
+                <div>
+                  <p>Dress automatic</p>
+                  <h3>Meridian Reserve</h3>
+                </div>
+                <span>$4,850</span>
+              </div>
+              <p>
+                A slim polished case, lacquered minute track, and hand-stitched calf strap for black-tie evenings and
+                quiet daily precision.
+              </p>
+              <div class="swatches" aria-label="Available finishes">
+                <span class="swatch steel" title="Steel"></span>
+                <span class="swatch oxblood" title="Oxblood leather"></span>
+                <span class="swatch champagne" title="Champagne indices"></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="watch-card" data-category="sport">
+            <figure>
+              <img src="assets/watch-chronograph.jpg" alt="Detailed silver chronograph wristwatch with a metal bracelet" />
+            </figure>
+            <div class="watch-card-body">
+              <div class="watch-title-row">
+                <div>
+                  <p>Column-wheel chronograph</p>
+                  <h3>Vector Chrono</h3>
+                </div>
+                <span>$6,900</span>
+              </div>
+              <p>
+                Built for crisp starts, split-second timing, and a bracelet that alternates brushed links with polished
+                bevels.
+              </p>
+              <div class="swatches" aria-label="Available finishes">
+                <span class="swatch steel" title="Steel"></span>
+                <span class="swatch graphite" title="Graphite dial"></span>
+                <span class="swatch forest" title="Green accent"></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="watch-card" data-category="travel">
+            <figure>
+              <img src="assets/watch-hero.jpg" alt="Premium mechanical wristwatch photographed on a refined surface" />
+            </figure>
+            <div class="watch-card-body">
+              <div class="watch-title-row">
+                <div>
+                  <p>GMT traveler</p>
+                  <h3>Atlas Dualtime</h3>
+                </div>
+                <span>$5,600</span>
+              </div>
+              <p>
+                A refined second-time-zone display with a recessed 24-hour chapter, quick-adjust crown, and matte dial
+                contrast.
+              </p>
+              <div class="swatches" aria-label="Available finishes">
+                <span class="swatch graphite" title="Graphite dial"></span>
+                <span class="swatch forest" title="Forest bezel"></span>
+                <span class="swatch saddle" title="Saddle strap"></span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="craft-section" id="craft">
+        <div class="craft-image" aria-hidden="true"></div>
+        <div class="craft-copy">
+          <p class="eyebrow">Craft and calibration</p>
+          <h2>Every surface earns the light.</h2>
+          <p>
+            We finish each case by hand before regulation, then inspect dial alignment, winding feel, bracelet tolerance,
+            and crystal clarity under magnification. Nothing leaves the bench until it feels deliberate.
+          </p>
+          <div class="craft-points">
+            <article>
+              <span>01</span>
+              <h3>Regulated in five positions</h3>
+              <p>Each movement is timed over multiple days before final casing.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Hand-finished edges</h3>
+              <p>Transitions between brushed and polished surfaces are cut cleanly by touch.</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>Lifetime service notes</h3>
+              <p>Your watch receives a traceable record for maintenance, parts, and accuracy checks.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="concierge-section" id="concierge">
+        <div class="section-heading">
+          <p class="eyebrow">Collector concierge</p>
+          <h2>Choose your next piece with a specialist.</h2>
+        </div>
+        <div class="concierge-grid">
+          <article>
+            <h3>Private fitting</h3>
+            <p>Compare case sizes, strap textures, bracelet taper, and dial colors in a quiet one-to-one appointment.</p>
+          </article>
+          <article>
+            <h3>Strap wardrobe</h3>
+            <p>Build seasonal pairings in calf, suede, rubber, or woven textile with quick-release hardware.</p>
+          </article>
+          <article>
+            <h3>Care program</h3>
+            <p>Five years of pressure checks, regulation support, strap fitting, and collector documentation.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="appointment-section" id="appointment">
+        <div class="appointment-copy">
+          <p class="eyebrow">Private appointment</p>
+          <h2>Reserve a viewing.</h2>
+          <p>
+            Tell us the model you want to see and your preferred time. A specialist will prepare the watches, straps, and
+            sizing tools before you arrive.
+          </p>
+        </div>
+
+        <form class="appointment-form" data-appointment-form>
+          <label>
+            Full name
+            <input type="text" name="name" autocomplete="name" placeholder="Your name" required />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" autocomplete="email" placeholder="you@example.com" required />
+          </label>
+          <label>
+            Preferred model
+            <select name="model" required>
+              <option value="">Select a model</option>
+              <option>Meridian Reserve</option>
+              <option>Vector Chrono</option>
+              <option>Atlas Dualtime</option>
+            </select>
+          </label>
+          <label>
+            Viewing preference
+            <select name="preference" required>
+              <option>In-person showroom</option>
+              <option>Virtual consultation</option>
+              <option>Collector event invite</option>
+            </select>
+          </label>
+          <button class="button primary" type="submit">Request appointment</button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Aurelia Watches</span>
+      <span>Imagery via Unsplash photographers Slavan and John Torcasio.</span>
+    </footer>
+
+    <div class="toast" role="status" aria-live="polite" data-toast></div>
+    <script src="app.js"></script>
+  </body>
+</html>
