@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlowUp Skincare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --rose:    #d4547a;
+      --blush:   #f5e0e8;
+      --cream:   #fdf8f4;
+      --petal:   #fce8f0;
+      --bark:    #2c1f28;
+      --muted:   #7a6370;
+      --white:   #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--bark);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 60px;
+      background: rgba(253,248,244,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(212,84,122,0.1);
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem; font-weight: 600;
+      color: var(--rose); letter-spacing: 0.03em;
+    }
+    .logo span { color: var(--bark); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--muted);
+      font-size: 0.9rem; font-weight: 500;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--rose); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 92vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 80px 60px;
+      gap: 60px;
+    }
+    .hero-text h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 300; line-height: 1.15;
+      color: var(--bark);
+      margin-bottom: 24px;
+    }
+    .hero-text h1 em {
+      font-style: italic; color: var(--rose);
+    }
+    .hero-text p {
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 420px; margin-bottom: 40px;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: var(--rose); color: var(--white);
+      padding: 14px 36px; border-radius: 50px;
+      text-decoration: none; font-size: 0.9rem;
+      font-weight: 500; letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .btn-primary:hover { background: #b8446a; transform: translateY(-2px); }
+    .btn-ghost {
+      display: inline-block;
+      border: 1.5px solid var(--rose); color: var(--rose);
+      padding: 14px 36px; border-radius: 50px;
+      text-decoration: none; font-size: 0.9rem;
+      font-weight: 500; letter-spacing: 0.05em;
+      text-transform: uppercase; margin-left: 16px;
+      transition: all 0.3s;
+    }
+    .btn-ghost:hover { background: var(--rose); color: white; }
+
+    /* hero visual — abstract petal art */
+    .hero-visual {
+      display: flex; justify-content: center; align-items: center;
+      position: relative;
+    }
+    .hero-circle {
+      width: 420px; height: 420px; border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, #fce8f0, #f5c2d4 50%, #d4547a);
+      position: relative; overflow: hidden;
+    }
+    .petal {
+      position: absolute; border-radius: 50% 0 50% 0;
+      opacity: 0.18;
+    }
+    .petal-1 { width: 200px; height: 200px; background: #ffffff; top: 20px; left: 30px; transform: rotate(30deg); }
+    .petal-2 { width: 160px; height: 160px; background: #c2395c; bottom: 40px; right: 20px; transform: rotate(-20deg); }
+    .petal-3 { width: 130px; height: 130px; background: #ffffff; bottom: 80px; left: 60px; transform: rotate(60deg); }
+    .hero-badge {
+      position: absolute; bottom: 30px; right: -10px;
+      background: white; border-radius: 16px;
+      padding: 14px 20px; box-shadow: 0 8px 32px rgba(44,31,40,0.12);
+      font-size: 0.85rem; font-weight: 500;
+    }
+    .hero-badge strong { display: block; color: var(--rose); font-size: 1.5rem; }
+
+    /* ── STRIP ── */
+    .strip {
+      background: var(--rose); color: white;
+      display: flex; justify-content: center; gap: 80px;
+      padding: 24px 60px; font-size: 0.85rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .strip span::before { content: "✦  "; }
+
+    /* ── PRODUCTS ── */
+    .products { padding: 100px 60px; }
+    .section-label {
+      font-size: 0.8rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--rose);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400; color: var(--bark);
+      margin-bottom: 60px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1px solid rgba(212,84,122,0.08);
+    }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 20px 48px rgba(44,31,40,0.1); }
+    .card-img {
+      height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+    }
+    .card-img.c1 { background: linear-gradient(135deg, #fce8f0, #f5c2d4); }
+    .card-img.c2 { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
+    .card-img.c3 { background: linear-gradient(135deg, #fff8e1, #ffe082); }
+    .card-img.c4 { background: linear-gradient(135deg, #e3f2fd, #bbdefb); }
+    .card-img.c5 { background: linear-gradient(135deg, #fce4ec, #f8bbd0); }
+    .card-img.c6 { background: linear-gradient(135deg, #f3e5f5, #e1bee7); }
+    .card-body { padding: 24px; }
+    .card-tag {
+      font-size: 0.72rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--rose);
+      margin-bottom: 6px;
+    }
+    .card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 600;
+      color: var(--bark); margin-bottom: 8px;
+    }
+    .card-desc { font-size: 0.88rem; color: var(--muted); margin-bottom: 18px; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; }
+    .price { font-size: 1.2rem; font-weight: 500; color: var(--rose); }
+    .add-btn {
+      background: var(--blush); color: var(--rose);
+      border: none; padding: 8px 18px; border-radius: 30px;
+      font-size: 0.82rem; font-weight: 500; cursor: pointer;
+      transition: background 0.25s;
+    }
+    .add-btn:hover { background: var(--rose); color: white; }
+
+    /* ── ROUTINE ── */
+    .routine {
+      background: var(--bark); color: var(--white);
+      padding: 100px 60px;
+    }
+    .routine .section-label { color: #f5c2d4; }
+    .routine .section-title { color: var(--white); }
+    .steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 32px; margin-top: 20px;
+    }
+    .step { border-top: 1px solid rgba(255,255,255,0.15); padding-top: 24px; }
+    .step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem; color: var(--rose); font-weight: 300;
+      margin-bottom: 12px;
+    }
+    .step h3 { font-size: 1rem; font-weight: 500; margin-bottom: 8px; }
+    .step p { font-size: 0.87rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials { padding: 100px 60px; background: var(--petal); }
+    .reviews {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 28px; margin-top: 48px;
+    }
+    .review {
+      background: white; border-radius: 20px;
+      padding: 32px; position: relative;
+    }
+    .stars { color: var(--rose); font-size: 1rem; margin-bottom: 16px; }
+    .review p { font-size: 0.92rem; color: var(--muted); line-height: 1.7; font-style: italic; }
+    .reviewer {
+      margin-top: 20px; font-size: 0.85rem;
+      font-weight: 500; color: var(--bark);
+    }
+    .reviewer span { color: var(--rose); }
+
+    /* ── NEWSLETTER ── */
+    .newsletter {
+      padding: 80px 60px; text-align: center;
+      background: var(--cream);
+    }
+    .newsletter h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem; font-weight: 300;
+      color: var(--bark); margin-bottom: 12px;
+    }
+    .newsletter p { color: var(--muted); margin-bottom: 36px; }
+    .email-form {
+      display: flex; justify-content: center; gap: 12px;
+      max-width: 480px; margin: 0 auto;
+    }
+    .email-form input {
+      flex: 1; padding: 14px 20px;
+      border: 1.5px solid rgba(212,84,122,0.3);
+      border-radius: 50px; font-size: 0.9rem;
+      background: white; outline: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color 0.25s;
+    }
+    .email-form input:focus { border-color: var(--rose); }
+    .email-form button {
+      background: var(--rose); color: white;
+      border: none; padding: 14px 28px;
+      border-radius: 50px; font-size: 0.9rem;
+      font-weight: 500; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.3s;
+    }
+    .email-form button:hover { background: #b8446a; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bark); color: rgba(255,255,255,0.5);
+      padding: 40px 60px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.85rem;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; color: var(--rose);
+    }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--rose); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 60px 24px; min-height: auto; text-align: center; }
+      .hero-text p { margin: 0 auto 32px; }
+      .hero-visual { display: none; }
+      .products, .routine, .testimonials, .newsletter { padding: 60px 24px; }
+      .card-grid, .steps, .reviews { grid-template-columns: 1fr; }
+      .strip { gap: 24px; flex-wrap: wrap; padding: 16px 24px; }
+      footer { flex-direction: column; gap: 20px; text-align: center; padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Glow<span>Up</span></div>
+  <ul class="nav-links">
+    <li><a href="#products">Products</a></li>
+    <li><a href="#routine">Routine</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#newsletter">Newsletter</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-text">
+    <h1>Your skin.<br><em>Loved back</em><br>to life.</h1>
+    <p>Clean, gentle formulas made for Indian skin — because your glow deserves ingredients you can actually pronounce.</p>
+    <a href="#products" class="btn-primary">Shop Now</a>
+    <a href="#routine" class="btn-ghost">Our Routine</a>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-circle">
+      <div class="petal petal-1"></div>
+      <div class="petal petal-2"></div>
+      <div class="petal petal-3"></div>
+    </div>
+    <div class="hero-badge">
+      <strong>4.9★</strong>
+      Loved by 12,000+ customers
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <span>Dermatologist Tested</span>
+  <span>No Parabens</span>
+  <span>Cruelty Free</span>
+  <span>Made in India</span>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <p class="section-label">Our Collection</p>
+  <h2 class="section-title">Skincare essentials,<br>nothing extra.</h2>
+  <div class="card-grid">
+
+    <div class="card">
+      <div class="card-img c1">🌿</div>
+      <div class="card-body">
+        <p class="card-tag">Cleanser</p>
+        <h3 class="card-name">Rose Gel Face Wash</h3>
+        <p class="card-desc">Removes impurities without stripping your skin's natural moisture barrier.</p>
+        <div class="card-footer">
+          <span class="price">₹299</span>
+          <button class="add-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img c2">✨</div>
+      <div class="card-body">
+        <p class="card-tag">Serum</p>
+        <h3 class="card-name">Vitamin C Brightening Serum</h3>
+        <p class="card-desc">Fades dark spots and evens skin tone with 15% stable Vitamin C.</p>
+        <div class="card-footer">
+          <span class="price">₹599</span>
+          <button class="add-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img c3">💧</div>
+      <div class="card-body">
+        <p class="card-tag">Moisturiser</p>
+        <h3 class="card-name">Hyaluronic Glow Cream</h3>
+        <p class="card-desc">Locks in 72-hour hydration. Lightweight enough for humid climates.</p>
+        <div class="card-footer">
+          <span class="price">₹449</span>
+          <button class="add-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img c4">☀️</div>
+      <div class="card-body">
+        <p class="card-tag">Sunscreen</p>
+        <h3 class="card-name">SPF 50 Matte Shield</h3>
+        <p class="card-desc">Broad-spectrum, no white cast. Wears beautifully under makeup.</p>
+        <div class="card-footer">
+          <span class="price">₹349</span>
+          <button class="add-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img c5">🫧</div>
+      <div class="card-body">
+        <p class="card-tag">Exfoliant</p>
+        <h3 class="card-name">AHA BHA Exfoliating Toner</h3>
+        <p class="card-desc">Gently resurfaces texture for visibly smoother skin in 2 weeks.</p>
+        <div class="card-footer">
+          <span class="price">₹499</span>
+          <button class="add-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img c6">🌙</div>
+      <div class="card-body">
+        <p class="card-tag">Night Care</p>
+        <h3 class="card-name">Retinol Repair Night Cream</h3>
+        <p class="card-desc">Stimulates renewal while you sleep. Wake up to firmer, clearer skin.</p>
+        <div class="card-footer">
+          <span class="price">₹699</span>
+          <button class="add-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ROUTINE -->
+<section class="routine" id="routine">
+  <p class="section-label">Daily Routine</p>
+  <h2 class="section-title">4 steps to your glow.</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Cleanse</h3>
+      <p>Start with Rose Gel Face Wash morning and night to remove dirt and excess oil.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Treat</h3>
+      <p>Apply Vitamin C Serum in the morning to target dark spots and dullness.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Moisturise</h3>
+      <p>Layer Hyaluronic Glow Cream to seal in hydration and keep skin plump.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Protect</h3>
+      <p>Finish with SPF 50 every single morning — rain or shine.</p>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="testimonials" id="reviews">
+  <p class="section-label">Customer Reviews</p>
+  <h2 class="section-title">Real results, real people.</h2>
+  <div class="reviews">
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>"My hyperpigmentation has reduced so much in just 6 weeks. The Vitamin C serum is genuinely life-changing."</p>
+      <p class="reviewer">Priya M. — <span>Hyderabad</span></p>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>"Finally a moisturiser that doesn't feel greasy in our weather. My skin stays fresh all day long."</p>
+      <p class="reviewer">Kavitha R. — <span>Chennai</span></p>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>"The face wash is so gentle — no dryness, no tight feeling. I've been using it for 3 months now."</p>
+      <p class="reviewer">Ananya S. — <span>Bengaluru</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter" id="newsletter">
+  <h2>Get your glow guide.</h2>
+  <p>Skincare tips, new launches, and exclusive offers — straight to your inbox.</p>
+  <div class="email-form">
+    <input type="email" placeholder="your@email.com">
+    <button type="button">Subscribe</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">GlowUp</div>
+  <ul class="footer-links">
+    <li><a href="#">About</a></li>
+    <li><a href="#">Ingredients</a></li>
+    <li><a href="#">Shipping</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <p>© 2025 GlowUp. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
